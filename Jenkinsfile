@@ -18,18 +18,20 @@ pipeline {
         stage('Push the Docker Image to DockerHUb') {
             steps {
                 script {
-                    withCredentials([string(credentialsId: 'docker_hub', variable: 'docker_hub')]) {
+                   withCredentials([string(credentialsId: 'docker_hub', variable: 'docker_hub')]) {
+                   
                     sh 'docker login -u ramyani.das.cse26@heritageit.edu.in -p ${docker_hub}'
-}
+                   }
+                   
                     sh 'docker push ramyani194/learning'
                 }
+                }
             }
-        }
         
         stage('Deploy deployment and service file') {
             steps {
                 script {
-                    kubernetesDeploy configs: 'deploymentsvc.yaml', kubeconfigId: 'k8_auth'
+                    kubernetesDeploy configs: '', kubeConfig: [path: ''], kubeconfigId: 'k8_auth'
                 }
             }
         } 
